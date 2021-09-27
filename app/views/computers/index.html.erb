@@ -1,0 +1,128 @@
+<div class="row">
+  <div class="col-md-12">
+    <%= search_form_for @q, class: "form-inline margin-top" do |f| %>
+      <%= f.search_field :code_cont, class:"form-control", placeholder:"编号" %>
+      <%= f.search_field :brand_cont, class:"form-control", placeholder:"品牌" %>
+      <%= f.submit "搜索", class:"btn btn-primary" %>
+    <% end %>
+    <div class="btn-group float-right">
+      <%= link_to '新增', new_computer_path, class: "btn btn-primary float-right" %>
+      <%= link_to '导出', computers_path(format: :csv), class: "btn btn-default" %>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+<table id="computer_table" class="table table-hover margin-top" style="min-width:1500px;">
+  <thead>
+    <tr>
+      <th><%= sort_link(@q, :id,'ID', hide_indicator: true) %></th>
+      <th><%= sort_link(@q, :code,'编号', hide_indicator: true) %></th>
+      <th><%= sort_link(@q, :brand,'品牌', hide_indicator: true) %></th>
+      <th>版本</th>
+      <th>位置</th>
+      <th>状态</th>
+      <th>日期</th>
+      <th>配置</th>
+      <th style="width:200px">备注</th>
+      <th>工号</th>
+      <th>姓名</th>
+      <th>部门</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @computers.each do |computer| %>
+      <tr>
+        <td><%= computer.id %></td>
+        <td><%= computer.code %></td>
+        <td><%= computer.brand %></td>
+        <td><%= computer.version %></td>
+        <td><%= computer.place %></td>
+        <td><%= computer.state %></td>
+        <td><%= computer.date %></td>
+        <td><%= computer.configure %></td>
+        <td><%= computer.remarks %></td>
+        <td><%= computer.staff.number %></td>
+        <td><%= computer.staff.name %></td>
+        <td><%= computer.staff.department %></td>
+        <td>
+          <%#= link_to '领用', connect_computers_path(computer), class: "btn btn-success btn-sm" %>
+          <button type="button" class="use btn btn-success btn-sm" data-toggle="modal" data-target="#myModal">领用</button>
+          <%= link_to '编辑', edit_computer_path(computer), class: "btn btn-default btn-sm" %>
+          <%= link_to '删除', computer, method: :delete, data: { confirm: '确定删除?' }, class: "btn btn-danger btn-sm" %>
+          <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#printModal">打印</button>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
+
+<%= paginate @computers %>
+
+<%= form_tag import_computers_path(@computer), :multipart => true do %>
+  <p><%= file_field_tag "csv_file" %></p>
+  <p><%= submit_tag "导入", class: "btn btn-default" %></p>
+<% end %>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">设备领用</h4>
+      </div>
+      <div class="modal-body modal-h">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">工号</label>
+            <div class="col-sm-10">
+              <input id="number" type="text" class="form-control" placeholder="工号">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">位置</label>
+            <div class="col-sm-10">
+              <input id="place" type="text" class="form-control" placeholder="位置">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+              <input id="state" type="text" class="form-control" placeholder="状态" value="在用">
+            </div>
+          </div>
+        </div>
+        <div id="show">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="computer_update" type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- print Modal -->
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">标签打印</h4>
+      </div>
+      <div class="modal-body modal-h">
+        <div id="printBody" media="print">
+          <ul class='list-group margin-top-list'>
+            <li class='list-group-item'> 姓名：阮琳赈</li>
+            </li> <li class='list-group-item'>职位：助理工程师</li>
+          </ul>
+        </div>
+        <button id="print" class="btn btn-default">打印</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<p>
+  <strong>工号:</strong>
+  <%= @staff.number %>
+</p>
+
+<p>
+  <strong>姓名:</strong>
+  <%= @staff.name %>
+</p>
+
+<p>
+  <strong>部门:</strong>
+  <%= @staff.department %>
+</p>
+
+<p>
+  <strong>职务:</strong>
+  <%= @staff.position %>
+</p>
+
+<%= link_to '编辑', edit_staff_path(@staff), class:"btn btn-link" %> |
+<%= link_to '返回', staffs_path, class:"btn btn-link" %>

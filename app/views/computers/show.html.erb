@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @computer.code %>
+</p>
+
+<p>
+  <strong>Brand:</strong>
+  <%= @computer.brand %>
+</p>
+
+<p>
+  <strong>Version:</strong>
+  <%= @computer.version %>
+</p>
+
+<p>
+  <strong>Place:</strong>
+  <%= @computer.place %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @computer.state %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @computer.date %>
+</p>
+
+<p>
+  <strong>Configure:</strong>
+  <%= @computer.configure %>
+</p>
+
+<p>
+  <strong>Remarks:</strong>
+  <%= @computer.remarks %>
+</p>
+
+<p>
+  <strong>Staff:</strong>
+  <%= @computer.staff_id %>
+</p>
+
+<%= link_to 'Edit', edit_computer_path(@computer), class:"btn btn-link" %> |
+<%= link_to 'Back', computers_path, class:"btn btn-link" %>
